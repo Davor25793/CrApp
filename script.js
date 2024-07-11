@@ -3,6 +3,9 @@ const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
+const formBtn = itemForm.querySelector('button');
+let isEditMode = false;
+
 
 
 //Event Listeners
@@ -73,8 +76,28 @@ function removeItem(e){
     e.target.parentElement.parentElement.remove()
     removeItemFromLocalStorage(e.target.parentElement.parentElement)
     checkUI()
+  }else{
+    //ZA EDIT MODE 
+    setItemToEdit(e.target);
   }
 }
+
+
+//Set item to edit
+function setItemToEdit(item){
+   isEditMode = true;
+
+   //Na samom početku mičeš klasu svih li elemenata!!!
+   itemList.querySelectorAll('li').forEach(item => {
+    item.classList.remove('edit-mode');
+   }) 
+   
+   item.classList.add('edit-mode');
+   formBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Update Item'
+   itemInput.value = item.textContent;
+   formBtn.style.backgroundColor = '#228B22';
+}
+
 
 //Check UI
 function checkUI(){
